@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#16233A">
+<title>Expedición · tus entregas, tu aventura</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;800&family=Nunito:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#EDF1E8;--panel:#FFFFFF;--ink:#1B2A41;--mute:#586a7c;--line:#cdd7ca;--moss:#2F7D4E;--lamp:#B67A00;--ember:#B8334A;--chip:#E3EADF;--on:#fff;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#16233A;--panel:#1F3050;--ink:#EAF0F6;--mute:#9DB0C4;--line:#33496B;--moss:#7FB77E;--lamp:#F2B134;--ember:#F2808F;--chip:#2A3F63;--on:#16233A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#16233A;--panel:#1F3050;--ink:#EAF0F6;--mute:#9DB0C4;--line:#33496B;--moss:#7FB77E;--lamp:#F2B134;--ember:#F2808F;--chip:#2A3F63;--on:#16233A;color-scheme:dark}
+*{box-sizing:border-box}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:400 16px/1.5 Nunito,system-ui,sans-serif}
+h1,h2,h3{font-family:Bitter,Georgia,serif;margin:0;line-height:1.15}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--lamp);outline-offset:2px}
+.wrap{max-width:1040px;margin:0 auto;padding:16px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+.top h1{font-size:1.1rem}
+.role{background:var(--chip);border-radius:99px;padding:3px 12px;font-weight:800;font-size:.85rem}
+.ghost{background:none;border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer}
+.hero{display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:center;background:var(--panel);border:2px solid var(--ink);border-radius:20px;padding:20px;box-shadow:6px 6px 0 var(--moss)}
+.hero svg{width:150px;height:auto}
+.rank{color:var(--mute);font-weight:600}
+.hero h2{font-size:1.7rem}
+.bars{display:grid;gap:10px;margin:14px 0}
+.bar label{display:flex;justify-content:space-between;font-weight:800;font-size:.9rem}
+.track{height:14px;border-radius:9px;background:var(--chip);overflow:hidden;border:1px solid var(--line)}
+.fill{height:100%;transition:width .6s ease;border-radius:9px}
+.xp{background:var(--lamp)}.hp{background:var(--moss)}.hp.low{background:var(--ember)}
+.stats{display:flex;gap:18px;flex-wrap:wrap;font-weight:800}
+.stats span small{display:block;font-weight:600;color:var(--mute)}
+.grid{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;margin-top:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:16px}
+.grid .card:last-child{margin-bottom:0}
+.card h2{font-size:1.15rem;margin-bottom:12px}
+.card h3{font-size:1rem;margin:14px 0 4px}
+form.row{display:flex;gap:8px;flex-wrap:wrap}
+input[type=text],input[type=date],input[type=number],select{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 10px;min-width:0}
+.row input[type=text]{flex:1 1 150px}
+.num{width:74px}
+.btn{background:var(--moss);color:var(--on);border:0;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.btn.alt{background:var(--lamp)}
+.task,.rrow{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:12px 0;border-top:1px solid var(--line);align-items:center}
+.meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:.88rem;color:var(--mute)}
+.chip{padding:1px 9px;border-radius:99px;font-weight:800;color:#fff;font-size:.8rem}
+.pick{border:2px solid transparent;cursor:pointer;padding:4px 12px;font-size:.9rem}
+.pick.on{border-color:var(--ink)}
+.late{color:var(--ember);font-weight:800}
+.ok{color:var(--moss);font-weight:800}
+.acts{display:flex;gap:6px;align-items:center}
+.done{opacity:.7}
+.empty,.note{color:var(--mute);padding:6px 0}
+.note{background:var(--chip);border-radius:10px;padding:10px 12px;margin-bottom:12px}
+.code{font:800 1.5rem Bitter,serif;letter-spacing:.15em;color:var(--lamp)}
+.courses{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.badges{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.badges li{display:flex;gap:10px;align-items:center;padding:8px 10px;border-radius:10px;background:var(--chip)}
+.badges li.off{opacity:.5;filter:grayscale(1)}
+.badges i{font-style:normal;font-size:1.4rem}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,40px);opacity:0;background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:12px;font-weight:800;transition:.35s;max-width:90vw;text-align:center;pointer-events:none}
+.toast.on{transform:translate(-50%,0);opacity:1}
+@media (max-width:760px){.hero{grid-template-columns:1fr;text-align:center;justify-items:center}.grid{grid-template-columns:1fr}.hero>div{width:100%}.stats{justify-content:center}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><h1>🧭 Expedición</h1><span class="role" id="role"></span><button class="ghost" id="theme" aria-label="Cambiar tema claro u oscuro">Tema</button></div>
+  <div id="app"><p class="empty">Cargando tu expedición…</p></div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+const COL=["#2F7D4E","#8A4FBF","#C2571A","#1F6FB5","#B8334A","#8A7200"];
+const TITLES=["Aprendiz","Explorador","Rastreador","Guardabosques","Capitán","Maestro de mapas","Leyenda"];
+const need=l=>80+40*l;
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let db,user,me=null,teacher=false,cw=null,sel=null,rt,tm;
+const D={courses:[],members:[],tasks:[],subs:[],grants:[]};
+const today=()=>{const d=new Date();return new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10)};
+const daysTo=d=>Math.round((new Date(d+"T00:00:00")-new Date(today()+"T00:00:00"))/864e5);
+const nid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,5);
+const sum=(a,f)=>a.reduce((s,x)=>s+f(x),0);
+const lvl=xp=>{let l=1,r=xp;while(r>=need(l)){r-=need(l);l++}return{l,r,n:need(l)}};
+const cv=id=>D.courses.find(c=>c.id===id)||{name:"Curso eliminado",color:"#586a7c",code:""};
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(tm);tm=setTimeout(()=>t.classList.remove("on"),3400)}
+const fail=e=>toast(e&&e.code==="invalid_argument"?"Tu acceso no permite guardar. Pide al profesor que te comparta como colaborador.":"No se pudo guardar ("+((e&&e.code)||"error")+")");
+const put=(p,d)=>db.doc(p).set(d).catch(fail);
+const del=p=>db.doc(p).delete().catch(fail);
+function when(d){const n=daysTo(d);if(n<0)return`<span class="late">Vencida hace ${-n} ${n==-1?"día":"días"}</span>`;if(n==0)return"<b>Vence hoy</b>";if(n==1)return"Vence mañana";return`Vence en ${n} días`}
+function hero(l,hp){
+  const cape=["#8A4FBF","#1F6FB5","#2F7D4E","#C2571A","#B8334A","#8A7200","#B67A00"][Math.min(l-1,6)];
+  return`<svg viewBox="0 0 120 150" role="img" aria-label="Tu aventurero, nivel ${l}"><ellipse cx="60" cy="144" rx="38" ry="5" fill="#000" opacity=".15"/><path d="M28 134 L40 64 Q60 52 80 64 L92 134Z" fill="${cape}"/><rect x="45" y="66" width="30" height="46" rx="9" fill="#E8B44C"/><rect x="45" y="98" width="30" height="6" fill="#7A4A1F"/><rect x="46" y="108" width="10" height="28" rx="4" fill="#3b4a63"/><rect x="64" y="108" width="10" height="28" rx="4" fill="#3b4a63"/><circle cx="60" cy="44" r="18" fill="#F1C9A5"/><path d="M40 44 Q42 14 60 14 Q78 14 80 44 Q60 32 40 44Z" fill="#3b4a63"/><circle cx="53" cy="47" r="2.3" fill="#1B2A41"/><circle cx="67" cy="47" r="2.3" fill="#1B2A41"/><path d="${hp<30?"M53 57 Q60 53 67 57":"M53 55 Q60 61 67 55"}" stroke="#1B2A41" stroke-width="2" fill="none" stroke-linecap="round"/>${l>=3?'<path d="M78 26 Q96 4 106 10 Q98 26 78 28Z" fill="#B67A00"/>':""}<rect x="96" y="58" width="5" height="78" rx="2" fill="#8A5A2B"/>${l>=5?'<circle cx="98.5" cy="52" r="9" fill="#F2B134"/><circle cx="98.5" cy="52" r="4" fill="#fff" opacity=".7"/>':'<circle cx="98.5" cy="56" r="4" fill="#8A5A2B"/>'}</svg>`}
+function stats(uid){
+  const g=D.grants.filter(x=>x.uid===uid),tg=g.filter(x=>x.tid).sort((a,b)=>a.at-b.at);
+  const xp=sum(g,x=>x.xp),late=tg.filter(x=>x.late).length;let streak=0;
+  for(let i=tg.length-1;i>=0&&!tg[i].late;i--)streak++;
+  return{xp,late,streak,done:tg.length,gold:Math.round(xp/2),hp:Math.max(0,Math.min(100,100-15*late))}}
+function teacherView(){
+  const cs=D.courses;if(!sel||!cs.find(c=>c.id===sel))sel=cs.length?cs[0].id:null;
+  let h=`<section class="card"><h2>Mis cursos</h2><form class="row" id="cf"><input type="text" id="cn" placeholder="Nombre del curso" required maxlength="40" aria-label="Nombre del curso"><button class="btn">Crear curso</button></form><div class="courses">${cs.map(c=>`<button class="chip pick ${c.id===sel?"on":""}" style="background:${c.color}" data-act="pick" data-id="${c.id}">${esc(c.name)}</button>`).join("")||'<span class="empty">Crea tu primer curso. Recibirá un código para que los alumnos se unan.</span>'}</div></section>`;
+  if(sel){
+    const c=cv(sel),ts=D.tasks.filter(t=>t.cid===sel).sort((a,b)=>a.due.localeCompare(b.due)),ms=D.members.filter(m=>m.cid===sel);
+    const gids=new Set(D.grants.map(g=>g.id)),pend=D.subs.filter(s=>s.cid===sel&&!gids.has(s.tid+"_"+s.uid));
+    h+=`<div class="grid"><div><section class="card"><h2>${esc(c.name)}</h2><p style="margin:0 0 10px">Código para unirse: <span class="code">${esc(c.code)}</span> <button class="ghost" data-act="dc" data-id="${c.id}" aria-label="Eliminar curso">Eliminar curso</button></p>
+    <h3>Nueva tarea</h3><form class="row" id="tf"><input type="text" id="tt" placeholder="Título de la tarea" required maxlength="80" aria-label="Título"><input type="date" id="td" required value="${today()}" aria-label="Fecha límite"><select id="tx" aria-label="XP"><option value="20">Fácil · 20 XP</option><option value="40" selected>Media · 40 XP</option><option value="70">Difícil · 70 XP</option></select><button class="btn">Crear tarea</button></form>
+    ${ts.map(t=>`<div class="task"><div><b>${esc(t.title)}</b><div class="meta">${when(t.due)} · ${t.xp} XP · ${D.subs.filter(s=>s.tid===t.id).length} de ${ms.length} entregas</div></div><button class="ghost" data-act="dt" data-id="${t.id}" aria-label="Eliminar tarea ${esc(t.title)}">×</button></div>`).join("")||'<p class="empty">Aún no hay tareas en este curso.</p>'}</section>
+    <section class="card"><h2>Entregas por revisar</h2>${pend.map(s=>{const t=D.tasks.find(x=>x.id===s.tid);if(!t)return"";return`<div class="task"><div><b>${esc(s.name)}</b> · ${esc(t.title)}<div class="meta">${s.late?'<span class="late">Entregada tarde · XP a la mitad</span>':'<span class="ok">A tiempo</span>'}</div></div><button class="btn" data-act="ok" data-tid="${s.tid}" data-uid="${s.uid}">Aprobar +${s.late?Math.round(t.xp/2):t.xp} XP</button></div>`}).join("")||'<p class="empty">No hay entregas pendientes de revisión.</p>'}</section></div>
+    <section class="card"><h2>Alumnos (${ms.length})</h2>${ms.map(m=>{const x=sum(D.grants.filter(g=>g.uid===m.uid&&g.cid===sel),g=>g.xp);return`<div class="rrow"><div><b>${esc(m.name)}</b><div class="meta">Nivel ${lvl(x).l} · ${x} XP en este curso</div></div><div class="acts"><input class="num" type="number" id="b-${m.uid}" value="10" min="1" max="500" aria-label="XP para ${esc(m.name)}"><button class="btn alt" data-act="bonus" data-uid="${m.uid}">Dar XP</button></div></div>`}).join("")||'<p class="empty">Ningún alumno se ha unido todavía. Comparte el código del curso.</p>'}</section></div>`}
+  return h}
+function studentView(){
+  const mine=D.members.filter(m=>m.uid===me),cids=mine.map(m=>m.cid),name=mine.length?mine[0].name:"";
+  const s=stats(me),L=lvl(s.xp);
+  const gids=new Set(D.grants.filter(g=>g.uid===me).map(g=>g.id)),sub=new Set(D.subs.filter(x=>x.uid===me).map(x=>x.tid));
+  const ts=D.tasks.filter(t=>cids.includes(t.cid)).sort((a,b)=>a.due.localeCompare(b.due));
+  const row=t=>{const c=cv(t.cid),g=D.grants.find(x=>x.id===t.id+"_"+me),sb=sub.has(t.id);
+    const st=g?`<span class="ok">Aprobada · +${g.xp} XP${g.late?" (tarde)":""}</span>`:sb?"Entregada · esperando al profesor":`${when(t.due)} · +${t.xp} XP`;
+    return`<div class="task ${g?"done":""}"><div><b>${esc(t.title)}</b><div class="meta"><span class="chip" style="background:${c.color}">${esc(c.name)}</span>${st}</div></div>${sb||g?"":`<button class="btn" data-act="sub" data-id="${t.id}">Entregar</button>`}</div>`};
+  const open=ts.filter(t=>!sub.has(t.id)&&!gids.has(t.id)),wait=ts.filter(t=>sub.has(t.id)||gids.has(t.id));
+  const bd=[["🥾","Primer paso","Consigue tu primera entrega aprobada",s.done>=1],["🔥","Racha de 3","3 entregas aprobadas a tiempo seguidas",s.streak>=3],["🎒","Mochila llena","10 entregas aprobadas",s.done>=10],["⭐","Nivel 3","Llega al nivel 3",L.l>=3]];
+  return`<section class="hero">${hero(L.l,s.hp)}<div><h2>${esc(name||"Aventurero")}</h2><div class="rank">${TITLES[Math.min(L.l-1,6)]} · nivel ${L.l}</div><div class="bars"><div class="bar"><label><span>Experiencia</span><span>${L.r} / ${L.n} XP</span></label><div class="track"><div class="fill xp" style="width:${L.r/L.n*100}%"></div></div></div><div class="bar"><label><span>Vida</span><span>${s.hp} / 100</span></label><div class="track"><div class="fill hp ${s.hp<30?"low":""}" style="width:${s.hp}%"></div></div></div></div><div class="stats"><span>🪙 ${s.gold}<small>monedas</small></span><span>🔥 ${s.streak}<small>racha a tiempo</small></span><span>📜 ${s.done}<small>entregas</small></span></div></div></section>
+  <div class="grid"><section class="card"><h2>Tus misiones</h2>${cw===false?'<p class="note">Tu acceso es de solo lectura. Pide al profesor que te comparta como colaborador para poder unirte y entregar.</p>':""}${open.map(row).join("")||`<p class="empty">${cids.length?"Todo entregado. Descansa en la posada.":"Únete a un curso con el código de tu profesor para ver tus misiones."}</p>`}${wait.length?"<h3>Entregadas</h3>"+wait.map(row).join(""):""}</section>
+  <aside><section class="card"><h2>Unirse a un curso</h2><form class="row" id="jf"><input type="text" id="jc" placeholder="Código del curso" required maxlength="8" aria-label="Código del curso">${name?"":'<input type="text" id="jn" placeholder="Tu nombre" required maxlength="24" aria-label="Tu nombre">'}<button class="btn">Unirme</button></form><div class="courses">${cids.map(i=>`<span class="chip" style="background:${cv(i).color}">${esc(cv(i).name)}</span>`).join("")}</div></section>
+  <section class="card"><h2>Insignias</h2><ul class="badges">${bd.map(b=>`<li class="${b[3]?"":"off"}"><i>${b[0]}</i><div><b>${b[1]}</b><div class="meta">${b[2]}</div></div></li>`).join("")}</ul></section></aside></div>`}
+function render(){
+  const a=document.activeElement;
+  if(a&&/INPUT|SELECT/.test(a.tagName)&&$("app").contains(a)){clearTimeout(rt);rt=setTimeout(render,1200);return}
+  $("role").textContent=teacher?"Vista de profesor":"Vista de alumno";
+  $("app").innerHTML=teacher?teacherView():studentView()}
+document.addEventListener("submit",e=>{e.preventDefault();const f=e.target.id;
+  if(f=="cf"){const n=$("cn").value.trim();if(!n)return;const id=nid(),code=Array.from({length:5},()=>"ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[Math.floor(Math.random()*32)]).join("");sel=id;put("courses/"+id,{name:n,code,color:COL[D.courses.length%COL.length],at:Date.now()})}
+  if(f=="tf"){const id=nid();put("tasks/"+id,{cid:sel,title:$("tt").value.trim(),due:$("td").value,xp:+$("tx").value,at:Date.now()})}
+  if(f=="jf"){if(!me){toast("Necesitas iniciar sesión para unirte");return}const code=$("jc").value.trim().toUpperCase(),c=D.courses.find(x=>x.code===code),mm=D.members.find(m=>m.uid===me),name=mm?mm.name:$("jn").value.trim();
+    if(!c){toast("No existe ningún curso con ese código");return}if(!name)return;put("members/"+c.id+"_"+me,{cid:c.id,uid:me,name}).then(()=>toast("¡Te has unido a "+c.name+"!"))}});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-act]");if(!b)return;const a=b.dataset.act,id=b.dataset.id;
+  if(a=="pick"){sel=id;render()}
+  else if(a=="dc"){if(confirm("¿Eliminar este curso? Los alumnos dejarán de verlo."))del("courses/"+id)}
+  else if(a=="dt")del("tasks/"+id);
+  else if(a=="ok"){const t=D.tasks.find(x=>x.id===b.dataset.tid),s=D.subs.find(x=>x.tid===b.dataset.tid&&x.uid===b.dataset.uid);if(!t||!s)return;
+    put("grants/"+t.id+"_"+s.uid,{uid:s.uid,cid:t.cid,tid:t.id,xp:s.late?Math.round(t.xp/2):t.xp,late:!!s.late,at:Date.now()}).then(()=>toast("Entrega aprobada"))}
+  else if(a=="bonus"){const u=b.dataset.uid,n=Math.max(1,Math.min(500,Math.round(+$("b-"+u).value||0)));put("grants/"+nid(),{uid:u,cid:sel,xp:n,late:false,at:Date.now()}).then(()=>toast("+"+n+" XP entregados"))}
+  else if(a=="sub"){const t=D.tasks.find(x=>x.id===id),mm=D.members.find(m=>m.uid===me);if(!t||!mm)return;
+    put("subs/"+t.id+"_"+me,{tid:t.id,cid:t.cid,uid:me,name:mm.name,at:Date.now(),late:daysTo(t.due)<0}).then(()=>toast("Entrega enviada. Espera la revisión de tu profesor."))}});
+$("theme").onclick=()=>{const d=document.documentElement;d.dataset.theme=getComputedStyle(d).colorScheme=="dark"?"light":"dark"};
+(async()=>{
+  try{db=window.claude?await claude.use("db"):null;user=window.claude?await claude.use("user"):null}catch(e){}
+  if(!db){$("app").innerHTML='<p class="note">Para usar Expedición abre esta página desde claude.ai con tu sesión iniciada. Así el profesor y los alumnos comparten los mismos cursos.</p>';return}
+  if(user){me=await user.id();teacher=await user.canEdit();cw=await user.can("data.write")}
+  for(const n of Object.keys(D))db.collection(n).onSnapshot(s=>{D[n]=s.docs.map(d=>Object.assign({},d.data(),{id:d.id}));render()},e=>{if(e&&e.code=="revoked")toast("Se ha retirado tu acceso")});
+  render()})();
+</script>
+</body>
+</html>
