@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#16233A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Expedición · tus entregas, tu aventura</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;800&family=Nunito:wght@400;600;800&display=swap">
+<style>
+:root{--bg:#EDF1E8;--panel:#FFFFFF;--ink:#1B2A41;--mute:#586a7c;--line:#cdd7ca;--moss:#2F7D4E;--lamp:#B67A00;--ember:#B8334A;--chip:#E3EADF;--on:#fff;color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#16233A;--panel:#1F3050;--ink:#EAF0F6;--mute:#9DB0C4;--line:#33496B;--moss:#7FB77E;--lamp:#F2B134;--ember:#F2808F;--chip:#2A3F63;--on:#16233A;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#16233A;--panel:#1F3050;--ink:#EAF0F6;--mute:#9DB0C4;--line:#33496B;--moss:#7FB77E;--lamp:#F2B134;--ember:#F2808F;--chip:#2A3F63;--on:#16233A;color-scheme:dark}
+*{box-sizing:border-box}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:400 16px/1.5 Nunito,system-ui,sans-serif}
+h1,h2,h3{font-family:Bitter,Georgia,serif;margin:0;line-height:1.15}
+button,input,select{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--lamp);outline-offset:2px}
+.wrap{max-width:1040px;margin:0 auto;padding:16px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
+.top h1{font-size:1.1rem}
+.ghost{background:none;border:1px solid var(--line);border-radius:8px;padding:6px 10px;cursor:pointer}
+.hero{display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:center;background:var(--panel);border:2px solid var(--ink);border-radius:20px;padding:20px;box-shadow:6px 6px 0 var(--moss)}
+.hero svg{width:150px;height:auto}
+.name{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
+.name input{font:800 1.7rem Bitter,serif;border:0;border-bottom:2px dashed var(--line);background:none;width:min(100%,14ch);padding:0}
+.rank{color:var(--mute);font-weight:600}
+.bars{display:grid;gap:10px;margin:14px 0}
+.bar label{display:flex;justify-content:space-between;font-weight:800;font-size:.9rem}
+.track{height:14px;border-radius:9px;background:var(--chip);overflow:hidden;border:1px solid var(--line)}
+.fill{height:100%;transition:width .6s ease;border-radius:9px}
+.xp{background:var(--lamp)}.hp{background:var(--moss)}.hp.low{background:var(--ember)}
+.stats{display:flex;gap:18px;flex-wrap:wrap;font-weight:800}
+.stats span small{display:block;font-weight:600;color:var(--mute)}
+.grid{display:grid;grid-template-columns:1.6fr 1fr;gap:16px;margin-top:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:16px}
+.card h2{font-size:1.15rem;margin-bottom:12px}
+form.row{display:flex;gap:8px;flex-wrap:wrap}
+input[type=text],input[type=date],select{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:9px 10px;min-width:0}
+.row input[type=text]{flex:1 1 160px}
+.btn{background:var(--moss);color:var(--on);border:0;border-radius:10px;padding:9px 14px;font-weight:800;cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.task{display:grid;grid-template-columns:1fr auto;gap:4px 12px;padding:12px 0;border-top:1px solid var(--line);align-items:center}
+.task b{font-weight:800}
+.meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;font-size:.88rem;color:var(--mute)}
+.chip{padding:1px 9px;border-radius:99px;font-weight:800;color:#fff;font-size:.8rem}
+.late{color:var(--ember);font-weight:800}
+.acts{display:flex;gap:6px;align-items:center}
+.done{opacity:.65}
+.empty{color:var(--mute);padding:8px 0}
+.badges{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.badges li{display:flex;gap:10px;align-items:center;padding:8px 10px;border-radius:10px;background:var(--chip)}
+.badges li.off{opacity:.5;filter:grayscale(1)}
+.badges i{font-style:normal;font-size:1.4rem}
+.courses{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translate(-50%,40px);opacity:0;background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:12px;font-weight:800;transition:.35s;max-width:90vw;text-align:center;pointer-events:none}
+.toast.on{transform:translate(-50%,0);opacity:1}
+@media (max-width:760px){.hero{grid-template-columns:1fr;text-align:center;justify-items:center}.grid{grid-template-columns:1fr}.name{justify-content:center}.hero>div{width:100%}.stats{justify-content:center}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top"><h1>🧭 Expedición</h1><button class="ghost" id="theme" aria-label="Cambiar tema claro u oscuro">Tema</button></div>
+  <section class="hero" id="hero"></section>
+  <div class="grid">
+    <section class="card">
+      <h2>Entregas en el mapa</h2>
+      <form class="row" id="tf">
+        <input type="text" id="tt" placeholder="¿Qué hay que entregar?" required maxlength="80" aria-label="Título de la entrega">
+        <select id="tc" aria-label="Curso"></select>
+        <input type="date" id="td" required aria-label="Fecha de entrega">
+        <select id="tl" aria-label="Dificultad"><option value="20">Fácil · 20 XP</option><option value="40" selected>Media · 40 XP</option><option value="70">Difícil · 70 XP</option></select>
+        <button class="btn">Añadir entrega</button>
+      </form>
+      <div id="tasks"></div>
+    </section>
+    <aside>
+      <section class="card">
+        <h2>Cursos</h2>
+        <form class="row" id="cf"><input type="text" id="cn" placeholder="Nuevo curso" required maxlength="30" aria-label="Nombre del curso"><button class="btn">Añadir curso</button></form>
+        <div class="courses" id="courses"></div>
+      </section>
+      <section class="card" style="margin-top:16px">
+        <h2>Insignias</h2>
+        <ul class="badges" id="badges"></ul>
+      </section>
+    </aside>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+const COL=["#2F7D4E","#8A4FBF","#C2571A","#1F6FB5","#B8334A","#8A7200"];
+const TITLES=["Aprendiz","Explorador","Rastreador","Guardabosques","Capitán","Maestro de mapas","Leyenda"];
+const need=l=>80+40*l;
+let S={name:"Aventurero",xp:0,hp:100,gold:0,streak:0,done:0,courses:[],tasks:[]};
+try{const r=localStorage.getItem("expedicion-v1");if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+const save=()=>{try{localStorage.setItem("expedicion-v1",JSON.stringify(S))}catch(e){}};
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function lvl(){let l=1,r=S.xp;while(r>=need(l)){r-=need(l);l++}return{l,r,n:need(l)}}
+function daysTo(d){const t=new Date();t.setHours(0,0,0,0);return Math.round((new Date(d+"T00:00:00")-t)/864e5)}
+function when(d){const n=daysTo(d);if(n<0)return`<span class="late">Vencida hace ${-n} ${n==-1?"día":"días"} · −15 de vida</span>`;if(n==0)return"<b>Vence hoy</b>";if(n==1)return"Vence mañana";return`Vence en ${n} días`}
+function hero(l,hp){
+  const cape=["#8A4FBF","#1F6FB5","#2F7D4E","#C2571A","#B8334A","#8A7200","#B67A00"][Math.min(l-1,6)];
+  return`<svg viewBox="0 0 120 150" role="img" aria-label="Tu aventurero, nivel ${l}">
+  <ellipse cx="60" cy="144" rx="38" ry="5" fill="#000" opacity=".15"/>
+  <path d="M28 134 L40 64 Q60 52 80 64 L92 134Z" fill="${cape}"/>
+  <rect x="45" y="66" width="30" height="46" rx="9" fill="#E8B44C"/><rect x="45" y="98" width="30" height="6" fill="#7A4A1F"/>
+  <rect x="46" y="108" width="10" height="28" rx="4" fill="#3b4a63"/><rect x="64" y="108" width="10" height="28" rx="4" fill="#3b4a63"/>
+  <circle cx="60" cy="44" r="18" fill="#F1C9A5"/>
+  <path d="M40 44 Q42 14 60 14 Q78 14 80 44 Q60 32 40 44Z" fill="#3b4a63"/>
+  <circle cx="53" cy="47" r="2.3" fill="#1B2A41"/><circle cx="67" cy="47" r="2.3" fill="#1B2A41"/>
+  <path d="${hp<30?'M53 57 Q60 53 67 57':'M53 55 Q60 61 67 55'}" stroke="#1B2A41" stroke-width="2" fill="none" stroke-linecap="round"/>
+  ${hp<30?'<rect x="64" y="30" width="14" height="6" rx="2" fill="#fff" transform="rotate(-20 71 33)"/>':''}
+  ${l>=3?'<path d="M78 26 Q96 4 106 10 Q98 26 78 28Z" fill="#B67A00"/>':''}
+  <rect x="96" y="58" width="5" height="78" rx="2" fill="#8A5A2B"/>
+  ${l>=5?'<circle cx="98.5" cy="52" r="9" fill="#F2B134"/><circle cx="98.5" cy="52" r="4" fill="#fff" opacity=".7"/>':'<circle cx="98.5" cy="56" r="4" fill="#8A5A2B"/>'}
+  </svg>`}
+function badges(){const L=lvl().l;return[
+ ["🥾","Primer paso","Entrega tu primera tarea",S.done>=1],
+ ["🔥","Racha de 3","3 entregas a tiempo seguidas",S.streak>=3],
+ ["🎒","Mochila llena","10 entregas completadas",S.done>=10],
+ ["⭐","Nivel 3","Llega al nivel 3",L>=3]]}
+function render(){
+  const {l,r,n}=lvl();
+  $("hero").innerHTML=`${hero(l,S.hp)}<div>
+   <div class="name"><input id="nm" value="${esc(S.name)}" maxlength="18" aria-label="Nombre del personaje"><span class="rank">${TITLES[Math.min(l-1,6)]} · nivel ${l}</span></div>
+   <div class="bars">
+    <div class="bar"><label><span>Experiencia</span><span>${r} / ${n} XP</span></label><div class="track"><div class="fill xp" style="width:${r/n*100}%"></div></div></div>
+    <div class="bar"><label><span>Vida</span><span>${S.hp} / 100</span></label><div class="track"><div class="fill hp ${S.hp<30?"low":""}" style="width:${S.hp}%"></div></div></div>
+   </div>
+   <div class="stats"><span>🪙 ${S.gold}<small>monedas</small></span><span>🔥 ${S.streak}<small>racha a tiempo</small></span><span>📜 ${S.done}<small>entregas</small></span></div></div>`;
+  $("nm").onchange=e=>{S.name=e.target.value.trim()||"Aventurero";save()};
+  const cs=S.courses;
+  $("tc").innerHTML=cs.map(c=>`<option value="${c.id}">${esc(c.name)}</option>`).join("")||'<option value="">Crea un curso primero</option>';
+  $("courses").innerHTML=cs.map(c=>`<span class="chip" style="background:${c.color}">${esc(c.name)} <button class="ghost" style="border:0;padding:0 2px;color:#fff" data-act="dc" data-id="${c.id}" aria-label="Eliminar curso ${esc(c.name)}">×</button></span>`).join("")||'<span class="empty">Añade tus asignaturas para empezar la ruta.</span>';
+  const cv=id=>cs.find(c=>c.id==id)||{name:"Sin curso",color:"#586a7c"};
+  const row=(t,d)=>{const c=cv(t.course);return`<div class="task ${d?"done":""}"><div><b>${esc(t.title)}</b><div class="meta"><span class="chip" style="background:${c.color}">${esc(c.name)}</span>${d?(t.late?"Entregada tarde":"Entregada a tiempo")+` · +${t.got} XP`:when(t.due)+` · +${t.diff} XP`}</div></div>
+   <div class="acts">${d?"":`<button class="btn" data-act="ok" data-id="${t.id}">Entregar</button>`}<button class="ghost" data-act="dt" data-id="${t.id}" aria-label="Eliminar entrega ${esc(t.title)}">×</button></div></div>`};
+  const p=S.tasks.filter(t=>!t.done).sort((a,b)=>a.due.localeCompare(b.due)),dn=S.tasks.filter(t=>t.done).slice(-5).reverse();
+  $("tasks").innerHTML=(p.length?p.map(t=>row(t,0)).join(""):'<p class="empty">Ninguna entrega pendiente. Añade la próxima y súbela al mapa.</p>')+(dn.length?'<h3 style="margin:16px 0 4px;font-size:1rem">Completadas</h3>'+dn.map(t=>row(t,1)).join(""):"");
+  $("badges").innerHTML=badges().map(b=>`<li class="${b[3]?"":"off"}"><i>${b[0]}</i><div><b>${b[1]}</b><div class="meta">${b[2]}</div></div></li>`).join("");
+}
+let tm;function toast(m){const t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(tm);tm=setTimeout(()=>t.classList.remove("on"),3200)}
+$("cf").onsubmit=e=>{e.preventDefault();const n=$("cn").value.trim();if(!n)return;S.courses.push({id:Date.now(),name:n,color:COL[S.courses.length%COL.length]});$("cn").value="";save();render()};
+$("tf").onsubmit=e=>{e.preventDefault();if(!S.courses.length){toast("Crea un curso antes de añadir entregas");return}
+ S.tasks.push({id:Date.now(),title:$("tt").value.trim(),course:$("tc").value,due:$("td").value,diff:+$("tl").value,done:false});$("tt").value="";save();render()};
+document.addEventListener("click",e=>{const b=e.target.closest("[data-act]");if(!b)return;const id=+b.dataset.id,a=b.dataset.act;
+ if(a=="dc"){S.courses=S.courses.filter(c=>c.id!=id)}
+ else if(a=="dt"){S.tasks=S.tasks.filter(t=>t.id!=id)}
+ else if(a=="ok"){const t=S.tasks.find(t=>t.id==id),before=lvl().l,late=daysTo(t.due)<0;
+  t.done=true;t.late=late;S.done++;
+  if(late){t.got=Math.round(t.diff/2);S.hp=Math.max(0,S.hp-15);S.streak=0}
+  else{t.got=t.diff;S.gold+=Math.round(t.diff/2);S.hp=Math.min(100,S.hp+10);S.streak++}
+  S.xp+=t.got;const after=lvl().l;
+  toast(after>before?`¡Subes al nivel ${after}! Ya eres ${TITLES[Math.min(after-1,6)]}`:late?`Entregada tarde: +${t.got} XP, pero pierdes vida`:`¡A tiempo! +${t.got} XP y ${Math.round(t.diff/2)} monedas`)}
+ save();render()});
+$("theme").onclick=()=>{const d=document.documentElement,dark=getComputedStyle(d).colorScheme=="dark";d.dataset.theme=dark?"light":"dark"};
+$("td").value=new Date(Date.now()+864e5-new Date().getTimezoneOffset()*6e4).toISOString().slice(0,10);
+render();
+</script>
+</body>
+</html>
